@@ -1,0 +1,120 @@
+.photo-wrapper {
+    display: flex;
+    width: 30%;
+    height: 260px;
+    overflow: hidden;
+    flex-direction: column;
+    position: relative;
+    border-radius: 5px;
+    /* border: 1px solid black; */
+    background: url("../../images/toppng.com-camera-png-512x512.png") center/contain no-repeat;
+}
+
+@media (max-width: 768px) {
+    .photo-wrapper {
+        width: 46%;
+
+    }
+}
+
+@media (max-width: 420px) {
+    .photo-wrapper {
+        width: 95%;
+
+    }
+}
+
+.photo-wrapper.active {
+    cursor: zoom-in;
+}
+
+.image {
+    object-fit: cover;
+    height: 100%;
+    transition: all ease-in-out 0.5s;
+    animation: fadeOut 0.5s;
+}
+
+.image.active {
+    position: fixed;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    max-height: 90%;
+    max-width: 90%;
+    object-fit: contain;
+    transform: translate(-50%, -50%);
+    cursor: zoom-out;
+    animation: fadeIn 0.5s;
+}
+
+.info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.645);
+    width: 100%;
+    height: 33%;
+    position: absolute;
+    bottom: -34%;
+    left: 0;
+    border-radius: 30% 30% 0 0;
+    transition: all ease-in-out 0.3s;
+}
+
+.info a {
+    display: flex;
+    color: blue;
+}
+
+.info img {
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.likes-info {
+    align-items: center;
+}
+
+.likes-info p {
+    text-align: left;
+    font-weight: bold;
+}
+
+.likes-info p.red {
+    color: red;
+}
+
+.likes-info p.orange {
+    color: orange;
+}
+
+.likes-info p.green {
+    color: green;
+}
+
+.photo-wrapper:hover .info {
+    bottom: 0;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
