@@ -11,6 +11,7 @@ const Photo = ({urls:{regular}, alt_description, likes, user:{name, portfolio_ur
 
     return (
         <> 
+        {changeSize && <div className='blur'></div>}
         <div 
         className={hover ? 'photo-wrapper active' : 'photo-wrapper'}
         onClick={() => setChangeSize(!changeSize)}

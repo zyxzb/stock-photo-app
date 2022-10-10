@@ -1,11 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {FaSearch} from 'react-icons/fa';
 import Photo from './components/Photo';
 import './App.css';
+import BackgroundImg from './components/BackgroundImg';
+import BackgroundImg2 from './components/BackgroundImg2';
+import { IoDocumentTextOutline } from "react-icons/io5";
 
 
 const mainURL = `https://api.unsplash.com/photos/`
-// const searchURL = `https://api.unsplash.com/search/photos/`
+const searchURL = `https://api.unsplash.com/search/photos/`
 
 
 function App() {
@@ -13,58 +16,104 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  
-  console.log(pageNumber);
-
+  const [query, setQuery] = useState('');
+  const [newImages, setNewImages] = useState(false);
+  const mounted = useRef(false);
+console.log(pageNumber);
     const fetchImages = async() => {
       setLoading(true);
         let url;
-        url = `${mainURL}?client_id=${process.env.REACT_APP_ACCESS_KEY}&page=${pageNumber}`
+
+        if(query) {
+          url = `${searchURL}?client_id=${process.env.REACT_APP_ACCESS_KEY}&query=${query}`
+        } else{
+          url = `${mainURL}?client_id=${process.env.REACT_APP_ACCESS_KEY}&page=${pageNumber}`
+        }
+
         try {
             const response = await fetch(url);
             const data = await response.json();
-            setPhotos(prevData => {
-              return ([...prevData, ...data])
-            });
-            setLoading(false);
+            console.log(data);
 
+            setPhotos((prevData) => {
+            if(query && pageNumber === 1){
+              return data.results
+            }
+              else if(query){
+              // setPhotos([])
+              return [...prevData, ...data.results]
+            } else {
+              return [...prevData, ...data]
+            }
+            });
+            setNewImages(false);
+            setLoading(false);
         } catch(error) {
           alert(error);
+          setNewImages(false);
           setLoading(false);
         }
     }
 
     useEffect(() => {
       fetchImages()
+    // eslint-disable-next-line
     }, [pageNumber])
 
     useEffect(() => {
-      const event = window.addEventListener("scroll", () => {
-          // console.log(`inner height: ${window.innerHeight}`);
-          // scrollY returns the pixels a document has scrolled from the upper left corner of the window
-          // console.log(`scrollY: ${window.scrollY}`);
-          // console.log(`body height: ${document.body.scrollHeight}`);
+      if(!mounted.current){
+        mounted.current = true;
+        return
+      }
+      
+      if(!newImages) return
+      if(loading) return
+      setPageNumber((prevNumber) =>  prevNumber +1)
+      
+    // eslint-disable-next-line
+    }, [newImages])
+  
+    const scrollEvent = () => {
+      if((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 5)) {
+                  console.log('scroll event works');
+                  setNewImages(true)
+              }
+    }
 
-          if(!loading && (window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 10)) {
-              console.log('it works');
-              setPageNumber(prevState => prevState +1 )
-          }
-      })
-      return () => window.removeEventListener('scroll', event);
+    useEffect(() => {
+      window.addEventListener('scroll', scrollEvent)
+      return () => window.removeEventListener('scroll',scrollEvent)
     },[])
 
     const handleSubmit = (e) => {
       e.preventDefault();
+      if(!query) {
+        alert('Please write a query before submitting');
+        return;
+      };
+      if(pageNumber === 1) {
+        fetchImages();
+        return;
+      }
+      setPageNumber(1);
     }
 
     return (
         <main className="App">
+          <BackgroundImg/>
+          <BackgroundImg2/>
           <section className='form-container'>
+                <div className='documentation-link'>
+                  <a href="https://unsplash.com/documentation">
+                  <IoDocumentTextOutline size={30}/> 
+                  </a>
+                  <span>Documentation</span> 
+                  </div>
                 <div>
                   <h1>Unsplash API</h1>
                 </div>
                 <form>
-                  <input type="text" placeholder='Search...'/>
+                  <input type="text" placeholder='Search...' value={query} onChange={(e) => setQuery(e.target.value)}/>
                   <button onClick={handleSubmit}><FaSearch/></button>
                 </form>
           </section>
