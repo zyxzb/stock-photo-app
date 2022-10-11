@@ -5,11 +5,21 @@ import './App.css';
 import BackgroundImg from './components/BackgroundImg';
 import BackgroundImg2 from './components/BackgroundImg2';
 import { IoDocumentTextOutline } from "react-icons/io5";
-
+import { BsFillSunFill } from "react-icons/bs";
+import { BsFillMoonStarsFill } from "react-icons/bs";
 
 const mainURL = `https://api.unsplash.com/photos/`
 const searchURL = `https://api.unsplash.com/search/photos/`
 
+
+//save theme preferences in local storage
+const storageTheme = () => {
+      let theme = 'dark-theme';
+      if(localStorage.getItem('theme')){
+        theme = localStorage.getItem('theme');
+      }
+      return theme
+}
 
 function App() {
 
@@ -18,8 +28,25 @@ function App() {
   const [pageNumber, setPageNumber] = useState(1);
   const [query, setQuery] = useState('');
   const [newImages, setNewImages] = useState(false);
+  const [theme, setTheme] = useState(storageTheme())
   const mounted = useRef(false);
 console.log(pageNumber);
+
+    const handleChangeTheme = () => {
+      if(theme === 'light-theme') {
+            setTheme('dark-theme')
+          } else {
+            setTheme('light-theme')
+          }
+    }
+    useEffect(() => {
+      document.documentElement.className = theme
+
+//save theme preferences in local storage
+      localStorage.setItem('theme', theme);
+// eslint-disable-next-line
+    }, [theme])
+
     const fetchImages = async() => {
       setLoading(true);
         let url;
@@ -108,7 +135,11 @@ console.log(pageNumber);
                   <IoDocumentTextOutline size={30}/> 
                   </a>
                   <span>Documentation</span> 
-                  </div>
+                </div>
+                <div className="theme-section" onClick={handleChangeTheme}>
+                  <span>Theme</span>
+                  {theme === 'light-theme' ? <BsFillSunFill/> : <BsFillMoonStarsFill/>}
+                </div>
                 <div>
                   <h1>Unsplash API</h1>
                 </div>

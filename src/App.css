@@ -1,7 +1,41 @@
+/* Theme Colors */
+
+.light-theme {
+  --main-color: #f0f0f0;
+  --font-color: #343a40;
+  --shadow-color: rgba(185, 185, 185);
+}
+
+.dark-theme {
+  --main-color: #343a40;
+  --font-color: #e9ecef;
+  --shadow-color: rgba(185, 185, 185);
+}
+
+.theme-section {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.theme-section span {
+  opacity: 0.4;
+  font-size: 1.4rem;
+}
+
+.theme-section svg {
+  color: #ffe6a7;
+  font-size: 1.6rem;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 .App {
   text-align: center;
-  background-color: rgb(248, 248, 248);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+  background-color: var(--main-color);
+  box-shadow: var(--shadow-color) 0px 10px 50px;
   max-width: 1200px;
   margin: 0 auto;
   margin-bottom: 2rem;
@@ -18,7 +52,7 @@
   background: url("../images/daniel-lincoln-KquvqfGCWAs-unsplash\ \(1\).jpg") center/cover no-repeat;
   margin-bottom: 3rem;
   font-size: 2rem;
-  color: white;
+  color: var(--shadow-color);
   border-radius: 10px;
   position: relative;
 }
@@ -48,10 +82,12 @@
   width: 100%;
   outline: none;
   border-radius: 5px 0 0 5px;
-  border: none;
+  border: 1px solid var(--font-color);
   padding-left: 10px;
   font-weight: bold;
   font-size: 1.2rem;
+  background-color: var(--main-color);
+  color: var(--font-color);
 }
 
 .form-container button {
@@ -59,13 +95,15 @@
   width: 10%;
   outline: none;
   border-radius: 0 5px 5px 0;
-  border: none;
+  border: 1px solid var(--font-color);
   border-left: 1px solid gray;
   cursor: pointer;
   font-size: 1.2rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--main-color);
+  color: var(--font-color);
 }
 
 .imgs-container {
@@ -79,13 +117,13 @@
 .bgc-img1,
 .bgc-img2 {
   position: fixed;
-  opacity: 0.2;
-  stroke: #000000;
+  opacity: 0.35;
+  stroke: var(--font-color);
   fill: none;
   stroke-width: 2px;
   stroke-opacity: 1;
-  -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .6));
-  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .6));
+  -webkit-filter: drop-shadow(5px 5px 5px var(--font-color));
+  filter: drop-shadow(5px 5px 5px var(--font-color));
 }
 
 .bgc-img1 {
@@ -136,7 +174,7 @@
   position: absolute;
   top: 15px;
   left: 15px;
-  opacity: 0.4;
+  opacity: 0.7;
 }
 
 .documentation-link span {
@@ -146,4 +184,5 @@
 .documentation-link a {
   color: rgb(255, 255, 255);
   margin-right: 3px;
+  opacity: 0.7;
 }
