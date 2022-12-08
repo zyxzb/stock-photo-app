@@ -30,7 +30,6 @@ function App() {
   const [newImages, setNewImages] = useState(false);
   const [theme, setTheme] = useState(storageTheme())
   const mounted = useRef(false);
-console.log(pageNumber);
 
     const handleChangeTheme = () => {
       if(theme === 'light-theme') {
@@ -60,7 +59,6 @@ console.log(pageNumber);
         try {
             const response = await fetch(url);
             const data = await response.json();
-            console.log(data);
 
             setPhotos((prevData) => {
             if(query && pageNumber === 1){

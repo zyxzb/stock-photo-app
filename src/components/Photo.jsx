@@ -1,13 +1,25 @@
 import React,{useState} from 'react';
 import { AiOutlineLink } from "react-icons/ai";
-import { MdStarOutline, MdStar } from "react-icons/md";
-// MdStarHalfe 1/2 star
+import { MdStarOutline, MdStar, MdStarHalf } from "react-icons/md";
 import './photo.css';
 
 
 const Photo = ({urls:{regular}, alt_description, likes, user:{name, portfolio_url, profile_image:{medium}}}) => {
     const [hover, setHover] = useState(false)
     const [changeSize, setChangeSize] = useState(false);
+    const starsRange = likes / 10;
+
+    const starsQty = Array.from({
+        length: 5
+    }, (_, index) => {
+        const number = index + 0.5
+        console.log(number);
+        return (
+            <span>
+                {starsRange >= index + 1 ? <MdStar/> : starsRange >= number ? <MdStarHalf/> : <MdStarOutline/>}
+            </span>
+        )
+    })
 
     return (
         <> 
@@ -26,58 +38,7 @@ const Photo = ({urls:{regular}, alt_description, likes, user:{name, portfolio_ur
             <div className='info'>
                 <div className='likes-info'>
                     <h4>{name}</h4>
-                    <p 
-                    // className={likes < 15 ? "red" : likes <50 ? "orange" : "green"}
-                    >
-                        {/* {likes}  */}
-                        {/* {`likes`} {likes < 15 ? "😪" : likes <50 ? "🤨" : "😍"} */}
-                        {likes < 10 ?(
-                        <>
-                        <MdStar/> 
-                        <MdStarOutline/> 
-                        <MdStarOutline/> 
-                        <MdStarOutline/> 
-                        <MdStarOutline/> 
-                        </> 
-                        )
-                        :likes < 20 ?(
-                            <>
-                            <MdStar/> 
-                            <MdStar/> 
-                            <MdStarOutline/> 
-                            <MdStarOutline/> 
-                            <MdStarOutline/> 
-                            </> 
-                            )
-                        :likes < 30 ?(
-                            <>
-                            <MdStar/> 
-                            <MdStar/> 
-                            <MdStar/>
-                            <MdStarOutline/> 
-                            <MdStarOutline/> 
-                            </> 
-                            )
-                        :likes < 50 ?(
-                            <>
-                            <MdStar/> 
-                            <MdStar/> 
-                            <MdStar/>
-                            <MdStar/>
-                            <MdStarOutline/> 
-                            </> 
-                            )
-                        : (
-                            <>
-                            <MdStar/> 
-                            <MdStar/> 
-                            <MdStar/>
-                            <MdStar/>
-                            <MdStar/>
-                            </> 
-                            )
-                    }
-                        </p>
+                    <p>{starsQty}</p>
                 </div>
                 <a href={portfolio_url} target="_blank" rel="noopener noreferrer">
                     {portfolio_url && <AiOutlineLink size={25}/>}
